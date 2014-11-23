@@ -16,8 +16,6 @@ public class Sender implements Runnable {
 	}
 	
 	public static boolean queuePacket(Packet p) {
-		System.out.println("ENQ A PACKET");
-
 		return ccl.add(p);
 	}
 	
@@ -42,12 +40,10 @@ public class Sender implements Runnable {
 			
 			Packet p = ccl.remove();
 			String ip = MeshNetworkManager.getIPForClient(p.getMac());
-			if(Configuration.isGO)
-				packetSender.sendPacket(ip, Configuration.RECEIVE_PORT, p.serialize());
-			else
-				packetSender.sendPacket(ip, Configuration.GO_RECEIVE_PORT, p.serialize());
 
-			System.out.println("SENT A PACKET");
+			packetSender.sendPacket(ip, Configuration.GO_RECEIVE_PORT, p.serialize());
+
+//			System.out.println("SENT A PACKET");
 
 			//packetSender.sendTcpPacket(p);
 			// Need to check if a route exists

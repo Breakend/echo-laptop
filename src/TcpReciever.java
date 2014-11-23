@@ -14,9 +14,7 @@ public class TcpReciever implements Runnable {
 	
 	public TcpReciever(int port, ConcurrentLinkedQueue<Packet> queue) {
 		try {
-			System.out.println("REceiver creating");
 			this.serverSocket = new ServerSocket(port);			
-			System.out.println("REceiver created");
 
 		} catch (IOException e) {
 			System.err.println("Server socket on port " + port + " could not be created. ");
@@ -32,7 +30,6 @@ public class TcpReciever implements Runnable {
 			try {
 
 				socket = this.serverSocket.accept();
-				System.out.println("Got a packet?");
 				InputStream in = socket.getInputStream();
 				ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
@@ -44,11 +41,10 @@ public class TcpReciever implements Runnable {
 				}
 
 				byte trimmedBytes[] = baos.toByteArray();
-				System.out.println("PACKET BYTES: " + new String(trimmedBytes));
 				Packet p = Packet.deserialize(trimmedBytes);
 				p.setSenderIP(socket.getInetAddress().getHostAddress());
-				System.out.println("IP: " +socket.getInetAddress().getHostAddress() );
-				System.err.println("Server | connection accepted, added to packet to queue");
+//				System.out.println("IP: " +socket.getInetAddress().getHostAddress() );
+//				System.err.println("Server | connection accepted, added to packet to queue");
 				this.packetQueue.add(p);
 				socket.close();
 			} catch (IOException e) {
