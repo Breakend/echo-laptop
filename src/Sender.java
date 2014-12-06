@@ -22,8 +22,7 @@ public class Sender implements Runnable {
 	@Override
 	public void run() {
 		TcpSender packetSender = new TcpSender();
-		// Begin queuing hello packets to be sent
-		//this.enqueueHelloPackets();
+
 		while (true) {
 			// A spin wait is super resource heavy
 			// TODO: not this
@@ -36,19 +35,11 @@ public class Sender implements Runnable {
 				}
 			}
 			
-
-			
 			Packet p = ccl.remove();
 			String ip = MeshNetworkManager.getIPForClient(p.getMac());
 
 			packetSender.sendPacket(ip, Configuration.GO_RECEIVE_PORT, p.serialize());
 
-//			System.out.println("SENT A PACKET");
-
-			//packetSender.sendTcpPacket(p);
-			// Need to check if a route exists
-			
-			//new Thread(new PacketSender(p)).start();
 		}
 	}
 	

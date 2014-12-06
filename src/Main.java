@@ -3,7 +3,11 @@ import java.util.Random;
 import java.util.Scanner;
 
 
-
+/**
+ * The main CLI program
+ * @author Peter Henderson
+ *
+ */
 public class Main {
 	static String echo_ascii = (
 "               )    )  \n" +
@@ -19,7 +23,9 @@ public class Main {
 	public static void main(String[] args) {
 	
 		
-		
+		/*
+		 * Intro message
+		 */
 		System.out.println("      WELCOME TO");
 		for(int i=0;i<echo_ascii.length();i++){
 			System.out.print(echo_ascii.charAt(i));
@@ -31,14 +37,25 @@ public class Main {
 			}
 		}
 		
+		/*
+		 * If you're hanging after the echo message, probably need to disable your firewall 
+		 */
+		
 		Reciever r = new Reciever();
 		new Thread(r).start();
 		
 		Sender s = new Sender();
 		new Thread(s).start();
 		
+		/*
+		 * spoof your mac 
+		 */
+		
 		String mac = randomMACAddress();
 		
+		/*
+		 * set yourself with some temporary info about group owner and name, this will be updated on HELLO_ACK
+		 */
 		try{
 			AllEncompasingP2PClient allenmc = new AllEncompasingP2PClient(mac, "127.0.0.1", "meh", "00:00:00:00:00:00");
 			MeshNetworkManager.setSelf(allenmc);
@@ -48,6 +65,9 @@ public class Main {
 			e.printStackTrace();
 		}
 		
+		/*
+		 * Send a Hello 
+		 */
 		Sender.queuePacket(new Packet(Packet.TYPE.HELLO, new byte[0], null, mac));
 		
 		Scanner scanner = new Scanner(System.in);
@@ -80,6 +100,10 @@ public class Main {
 		
 	}
 	
+	/**
+	 * helper to spoof your mac
+	 * @return
+	 */
 	private static String randomMACAddress(){
 	    Random rand = new Random();
 	    byte[] macAddr = new byte[6];

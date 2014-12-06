@@ -48,7 +48,6 @@ public class Reciever implements Runnable {
 			else{
 			//If you're the intendeded target for a non hello message
 			if(p.getMac().equals(MeshNetworkManager.getSelf().getMac())){
-//				System.out.println("I am the intended recipient\n");
 					if(p.getType().equals(Packet.TYPE.HELLO_ACK)){
 						MeshNetworkManager.deserializeRoutingTableAndAdd(p.getData());
 						MeshNetworkManager.getSelf().setGroupOwnerMac(p.getSenderMac());
@@ -62,19 +61,16 @@ public class Reciever implements Runnable {
 						System.out.println("The next line will allow you to send the message ONLY to that person.");
 					}
 					else if(p.getType().equals(Packet.TYPE.UPDATE)){
-//						System.out.println("GOT UPDATE");
 						String emb_mac = Packet.getMacBytesAsString(p.getData(), 0);
 						MeshNetworkManager.routingTable.put(emb_mac, new AllEncompasingP2PClient(emb_mac, p.getSenderIP(), p.getMac(), MeshNetworkManager.getSelf().getMac()));
 						System.out.println(emb_mac + " joined the chat.");
 					}
 					else if(p.getType().equals(Packet.TYPE.MESSAGE)){
-//						System.out.println("GOT MESSAGE");
 						System.out.println(p.getSenderMac() +" said : " + new String(p.getData()));
 					}
 				}
 				else{
 					//otherwise forward it 
-//					System.out.println("I (" + MeshNetworkManager.getSelf().getMac() +") am not the recipient ("+ p.getMac() +"). \n");
 					int ttl = p.getTtl();
 					ttl--;
 					if(ttl > 0){

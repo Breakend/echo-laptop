@@ -1,5 +1,3 @@
-
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -43,8 +41,6 @@ public class TcpReciever implements Runnable {
 				byte trimmedBytes[] = baos.toByteArray();
 				Packet p = Packet.deserialize(trimmedBytes);
 				p.setSenderIP(socket.getInetAddress().getHostAddress());
-//				System.out.println("IP: " +socket.getInetAddress().getHostAddress() );
-//				System.err.println("Server | connection accepted, added to packet to queue");
 				this.packetQueue.add(p);
 				socket.close();
 			} catch (IOException e) {

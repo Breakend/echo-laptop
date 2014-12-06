@@ -14,7 +14,6 @@ public class TcpSender {
 		
 		try {
 			InetAddress serverAddr = InetAddress.getByName(ip);
-//			System.out.println("IP TO SEND TO: " + ip);
 			tcpSocket = new Socket(serverAddr, port);
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
